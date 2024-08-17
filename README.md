@@ -1,6 +1,7 @@
 # root-cause-analysis
-##
+#####
 JIRA ISSUE ANALYSIS
+####
 This repository contains two projects focused on analyzing Jira issue summaries and detecting bottlenecks using various NLP techniques and clustering algorithms and is a web-based application designed to analyze Jira data, identify bottlenecks, and visualize the results through interactive charts and graphs. The application is built using Flask as the web framework, with Neo4j for graph database management, and various data processing libraries to handle and analyze the Jira dataset.
 ###
 PROJECT 1 -Jira Bottleneck Analysis and Visualization Dashboard
