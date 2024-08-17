@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jira Knowledge Graph</title>
+    <script src="https://cdn.neo4jlabs.com/neovis.js/v1.5.0/neovis.js"></script>
+    <style>
+        #viz {
+            width: 100%;
+            height: 800px;
+            border: 1px solid lightgray;
+        }
+    </style>
+</head>
+<body>
+    <div id="viz"></div>
+    <script>
+        var viz;
+
+        function draw() {
+            var config = {
+                container_id: "viz",
+                server_url: "bolt://your-aura-instance-id.databases.neo4j.io:7687",
+                server_user: "neo4j",
+                server_password: "your-password",
+                labels: {
+                    "issue": {
+                        "caption": "id",
+                        "size": 5,
+                    },
+                    "assignee": {
+                        "caption": "name",
+                        "size": 3,
+                    },
+                    "issue type": {
+                        "caption": "type",
+                        "size": 3,
+                    },
+                    "priority": {
+                        "caption": "priority",
+                        "size": 3,
+                    },
+                    "status": {
+                        "caption": "status",
+                        "size": 3,
+                    },
+                    "project": {
+                        "caption": "name",
+                        "size": 4,
+                    }
+                },
+                relationships: {
+                    "affects_version": {
+                        "thickness": 1,
+                        "caption": false
+                    },
+                    "assignee_id": {
+                        "thickness": 1,
+                        "caption": false
+                    },
+                    "description": {
+                        "thickness": 1,
+                        "caption": false
+                    },
+                    "issue_code": {
+                        "thickness": 1,
+                        "caption": false
+                    },
+                    "priority": {
+                        "thickness": 1,
+                        "caption": false
+                    },
+                    "project_lead": {
+                        "thickness": 1,
+                        "caption": false
+                    },
+                    "reporter_id": {
+                        "thickness": 1,
+                        "caption": false
+                    },
+                    "resolution": {
+                        "thickness": 1,
+                        "caption": false
+                    }
+                },
+                initial_cypher: "MATCH (n) WHERE n:assignee OR n:issue OR n:`issue type` OR n:priority OR n:status OR n:project WITH n LIMIT 100 OPTIONAL MATCH (n)-[r]->(m) WHERE type(r) IN ['affects_version', 'assignee_id', 'description', 'issue_code', 'priority', 'project_lead', 'reporter_id', 'resolution'] RETURN n, r, m"
+            };
+
+            viz = new NeoVis.default(config);
+            viz.render();
+        }
+    </script>
+    <script>
+        var graphData = {{ graph_data|safe }};
+        draw();
+    </script>
+</body>
+</html>
