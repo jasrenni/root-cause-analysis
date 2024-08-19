@@ -792,33 +792,33 @@ import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-# Load the Jira CSV file
+
 df = pd.read_csv('Jira (5).csv')
 
-# Convert date columns to datetime
+
 df['create'] = pd.to_datetime(df['Created'])
 df['update'] = pd.to_datetime(df['Updated'])
 df['time_to_resolve'] = (df['update'] - df['create']).dt.total_seconds() / (60 * 60)
 
-# Ensure text data is present for clustering
+
 summaries = df['Summary'].dropna().tolist()
 
 # Convert text data into numerical features using TF-IDF
 vectorizer = TfidfVectorizer(stop_words='english')
 X = vectorizer.fit_transform(summaries)
 
-# Perform KMeans clustering
+
 n_clusters = 9
 kmeans = KMeans(n_clusters=n_clusters, random_state=42)
 clusters = kmeans.fit_predict(X)
 
-# Add clustering results to DataFrame
+
 df['Cluster'] = clusters
 
-# Verify the new column
+
 print(df.head())
 
-# Calculate cluster metrics
+
 cluster_metrics = df.groupby('Cluster').agg(
     issue_count=('Summary', 'size'),
     avg_resolution_time=('time_to_resolve', 'mean')
@@ -856,7 +856,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 vectorizer = TfidfVectorizer(stop_words='english')
 X = vectorizer.fit_transform(summaries)
 
-# Perform KMeans clustering
+#  KMeans clustering
 from sklearn.cluster import KMeans
 n_clusters = 9
 kmeans = KMeans(n_clusters=n_clusters, random_state=42)
@@ -888,10 +888,10 @@ for i, node1 in bottleneck_details.iterrows():
         if i != j:
             G.add_edge(node1['Issue key'], node2['Issue key'])
 
-# Apply a layout algorithm
+
 pos = nx.spring_layout(G, seed=42)
 
-# Extract positions for Plotly
+#  for Plotly
 node_x = [pos[node][0] for node in G.nodes()]
 node_y = [pos[node][1] for node in G.nodes()]
 edge_x = []
